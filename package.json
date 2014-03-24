@@ -9,6 +9,7 @@
   "license": "MIT",
   "dependencies": {
     "baconjs": "0.7.8",
+    "bacon-jquery": "0.4.7",
     "browserify": "~3",
     "coffeeify": "~0.6",
     "jquery": "~2"

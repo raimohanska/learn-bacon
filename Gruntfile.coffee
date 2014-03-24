@@ -5,7 +5,7 @@ module.exports = (grunt) ->
     browserify: {
       bundle: {
         files: {
-          'public/bundle.js': ['src/*.coffee']
+          'public/bundle.js': ['app/script/*.coffee']
         },
         options: {
           transform: ['coffeeify']
@@ -28,7 +28,7 @@ module.exports = (grunt) ->
     }
     watch: {
       scripts: {
-        files: ['src/**'],
+        files: ['app/script/**'],
         tasks: 'browserify'
       },
       less: {
