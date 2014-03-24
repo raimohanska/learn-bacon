@@ -13,9 +13,7 @@
     "browserify": "~3",
     "coffeeify": "~0.6",
     "jquery": "~2",
-    "lodash": "2.4.1"
-  },
-  "devDependencies": {
+    "lodash": "2.4.1",
     "grunt": "~0.4.4",
     "grunt-cli": "~0.1.13",
     "grunt-contrib-jshint": "~0.6.3",
