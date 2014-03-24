@@ -5,12 +5,17 @@ Bacon.Observable :: withTimestamp = ({ relative, precision } = { precision: 1 })
   offset = if relative then new Date().getTime() else 0
   @flatMap (value) -> { value, timestamp: Math.floor((new Date().getTime() - offset) / precision) }
 
-assignment = {
+assignments = [{
   description: "output value 1 immediately",
   example: "function answer() { return Bacon.once(1) }",
   template: "function answer() { return Bacon.never() }"
   inputs: -> []
-}
+}]
+
+presentAssignment = (assignment) ->
+  $("#assignment .description").text(assignment.description)
+  $("#assignment .code").val(assignment.template)
+  evaluateAssignment assignment, assignment.template
 
 evaluateAssignment = (assignment, code) ->
   actual = evalCode(code)(assignment.inputs() ...)
@@ -28,4 +33,4 @@ collectAndVisualize = (src, values, desc) ->
 
 evalCode = (code) -> eval("(" + code + ")")
 
-evaluateAssignment assignment, "function answer() { return Bacon.later(1000, 2) }"
+presentAssignment assignments[0]

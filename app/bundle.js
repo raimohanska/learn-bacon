@@ -12023,7 +12023,7 @@ return jQuery;
 }));
 
 },{}],3:[function(require,module,exports){
-var $, Bacon, assignment, collectAndVisualize, evalCode, evaluateAssignment;
+var $, Bacon, assignments, collectAndVisualize, evalCode, evaluateAssignment, presentAssignment;
 
 Bacon = require("baconjs");
 
@@ -12043,13 +12043,21 @@ Bacon.Observable.prototype.withTimestamp = function(_arg) {
   });
 };
 
-assignment = {
-  description: "output value 1 immediately",
-  example: "function answer() { return Bacon.once(1) }",
-  template: "function answer() { return Bacon.never() }",
-  inputs: function() {
-    return [];
+assignments = [
+  {
+    description: "output value 1 immediately",
+    example: "function answer() { return Bacon.once(1) }",
+    template: "function answer() { return Bacon.never() }",
+    inputs: function() {
+      return [];
+    }
   }
+];
+
+presentAssignment = function(assignment) {
+  $("#assignment .description").text(assignment.description);
+  $("#assignment .code").val(assignment.template);
+  return evaluateAssignment(assignment, assignment.template);
 };
 
 evaluateAssignment = function(assignment, code) {
@@ -12076,7 +12084,7 @@ evalCode = function(code) {
   return eval("(" + code + ")");
 };
 
-evaluateAssignment(assignment, "function answer() { return Bacon.later(1000, 2) }");
+presentAssignment(assignments[0]);
 
 
 },{"baconjs":1,"jquery":2}]},{},[3]);

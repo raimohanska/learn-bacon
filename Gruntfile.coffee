@@ -5,19 +5,41 @@ module.exports = (grunt) ->
     browserify: {
       bundle: {
         files: {
-          'app/bundle.js': ['src/*.coffee']
+          'public/bundle.js': ['src/*.coffee']
         },
         options: {
           transform: ['coffeeify']
         }
       }
     },
+    less: {
+      all: {
+        files: {
+          'public/game.css': ['app/less/game.less']
+        }
+      }
+    }
+    copy: {
+      html: {
+        files: [
+          {expand: true, cwd: 'app/', src: '**/*.html', dest: 'public/'}
+        ]
+      }
+    }
     watch: {
       scripts: {
         files: ['src/**'],
         tasks: 'browserify'
+      },
+      less: {
+        files: ['app/less/**'],
+        tasks: 'less'
+      },
+      html: {
+        files: ['app/**/*.html'],
+        tasks: 'copy'
       }
     }
   }
 
-  grunt.registerTask 'default', [ 'browserify', 'watch' ]
+  grunt.registerTask 'default', [ 'browserify', 'less', 'copy', 'watch' ]
