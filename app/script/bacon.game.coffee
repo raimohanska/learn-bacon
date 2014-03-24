@@ -8,12 +8,26 @@ Bacon.Observable :: withTimestamp = ({ relative, precision } = { precision: 1 })
   offset = if relative then new Date().getTime() else 0
   @flatMap (value) -> { value, timestamp: Math.floor((new Date().getTime() - offset) / precision) }
 
-assignments = [{
-  description: "output value 1 immediately",
-  example: "function answer() { return Bacon.once(1) }",
-  template: "function answer() { return Bacon.never() }"
-  inputs: -> []
-}]
+assignments = [
+  {
+    description: "output value 1 immediately",
+    example: "function answer() { return Bacon.once(1) }",
+    template: "function answer() { return Bacon.never() }"
+    inputs: -> []
+  }
+  ,{
+    description: "output value 'lol' after 1000 milliseconds",
+    example: "function answer() { return Bacon.later(1000, 'lol') }",
+    template: "function answer() { return Bacon.never() }"
+    inputs: -> []
+  }
+  ,{
+    description: "Combine latest values of 2 inputs as array",
+    example: "function answer(a, b) { return Bacon.combineAsArray(a,b) }",
+    template: "function answer(a, b) { return Bacon.never() }"
+    inputs: -> [Bacon.once("a"), Bacon.once("b")]
+  }
+]
 
 presentAssignment = (assignment) ->
   $("#assignment .description").text(assignment.description)
@@ -56,4 +70,12 @@ collectAndVisualize = (src, values, desc) ->
 
 evalCode = (code) -> eval("(" + code + ")")
 
-presentAssignment assignments[0]
+currentAssignmentIndex = $("#assignment .previous").asEventStream("click").map(-1)
+  .merge($("#assignment .next").asEventStream("click").map(1))
+  .scan(0, (num, diff) -> Math.min(assignments.length - 1, Math.max(0, num + diff)))
+  .skipDuplicates()
+
+currentAssignment = currentAssignmentIndex
+  .map((i) -> assignments[i])
+
+currentAssignment.onValue presentAssignment
