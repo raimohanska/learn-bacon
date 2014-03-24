@@ -42,4 +42,5 @@ module.exports = (grunt) ->
     }
   }
 
-  grunt.registerTask 'default', [ 'browserify', 'less', 'copy', 'watch' ]
+  grunt.registerTask 'build', [ 'browserify', 'less', 'copy']
+  grunt.registerTask 'default', [ 'build', 'watch' ]
