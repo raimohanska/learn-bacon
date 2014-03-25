@@ -8,27 +8,27 @@ Bacon.Observable :: withTimestamp = ({ relative, precision } = { precision: 1 })
   offset = if relative then new Date().getTime() else 0
   @flatMap (value) -> { value, timestamp: Math.floor((new Date().getTime() - offset) / precision) }
 
-answerTemplate = (signature) -> "function answer(" + signature + """) {
-  return Bacon.never()
+answerTemplate = (signature, body = "return Bacon.never()") -> "function answer(" + signature + """) {
+  """ + body + """
 }"""
 
 assignments = [
   {
-    description: "output value 1 immediately",
-    example: "function answer() { return Bacon.once(1) }",
-    template: answerTemplate ""
+    description: "output value 1 immediately"
+    example: "return Bacon.once(1)"
+    signature: ""
     inputs: -> []
   }
   ,{
     description: "output value 'lol' after 1000 milliseconds",
-    example: "function answer() { return Bacon.later(1000, 'lol') }",
-    template: answerTemplate ""
+    example: "return Bacon.later(1000, 'lol')",
+    signature: ""
     inputs: -> []
   }
   ,{
     description: "Combine latest values of 2 inputs as array",
-    example: "function answer(a, b) { return Bacon.combineAsArray(a,b) }",
-    template: answerTemplate "a, b"
+    example: "return Bacon.combineAsArray(a,b)",
+    signature: "a, b"
     inputs: -> [Bacon.once("a"), Bacon.once("b")]
   }
 ].map (a, i) ->
@@ -38,9 +38,8 @@ assignments = [
 presentAssignment = (assignment) ->
   $("#assignment .description").text(assignment.description)
   $("#assignment .number").text(assignment.number)
-  #codeP = b$.textFieldValue($("#assignment .code"), assignment.template)
   $code = $("#assignment .code")
-  $code.val(assignment.template)
+  $code.val(answerTemplate(assignment.signature))
   codeP = $code.asEventStream("input").merge(Bacon.once()).toProperty().map(-> $code.val())
 
   evalE = codeP.sampledBy($("#assignment .run").asEventStream("click").doAction(".preventDefault"))
@@ -56,7 +55,7 @@ showResult =  (result) ->
 
 evaluateAssignment = (assignment, code) ->
   actual = evalCode(code)(assignment.inputs() ...)
-  expected = evalCode(assignment.example)(assignment.inputs() ...)
+  expected = evalCode(answerTemplate(assignment.signature, assignment.example))(assignment.inputs() ...)
 
   actualValues = timestampedValues actual
   expectedValues = timestampedValues expected
