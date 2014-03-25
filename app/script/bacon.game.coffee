@@ -8,9 +8,10 @@ Bacon.Observable :: withTimestamp = ({ relative, precision } = { precision: 1 })
   offset = if relative then new Date().getTime() else 0
   @flatMap (value) -> { value, timestamp: Math.floor((new Date().getTime() - offset) / precision) }
 
-answerTemplate = (signature, body = "return Bacon.never()") -> "function answer(" + signature + """) {
-  """ + body + """
-}"""
+answerTemplate = "function answer($signature) {\n  $body\n}"
+
+generateCode = (signature, body = "return Bacon.never()") ->
+  answerTemplate.replace("$signature", signature).replace("$body", body)
 
 assignments = [
   {
@@ -39,7 +40,7 @@ presentAssignment = (assignment) ->
   $("#assignment .description").text(assignment.description)
   $("#assignment .number").text(assignment.number)
   $code = $("#assignment .code")
-  $code.val(answerTemplate(assignment.signature))
+  $code.val(generateCode(assignment.signature))
   codeP = $code.asEventStream("input").merge(Bacon.once()).toProperty().map(-> $code.val())
 
   evalE = codeP.sampledBy($("#assignment .run").asEventStream("click").doAction(".preventDefault"))
@@ -55,7 +56,7 @@ showResult =  (result) ->
 
 evaluateAssignment = (assignment, code) ->
   actual = evalCode(code)(assignment.inputs() ...)
-  expected = evalCode(answerTemplate(assignment.signature, assignment.example))(assignment.inputs() ...)
+  expected = evalCode(generateCode(assignment.signature, assignment.example))(assignment.inputs() ...)
 
   actualValues = timestampedValues actual
   expectedValues = timestampedValues expected
