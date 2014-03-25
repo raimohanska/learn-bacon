@@ -8,38 +8,51 @@ Bacon.Observable :: withTimestamp = ({ relative, precision } = { precision: 1 })
   offset = if relative then new Date().getTime() else 0
   @flatMap (value) -> { value, timestamp: Math.floor((new Date().getTime() - offset) / precision) }
 
+answerTemplate = (signature) -> "function answer(" + signature + """) {
+  return Bacon.never()
+}"""
+
 assignments = [
   {
     description: "output value 1 immediately",
     example: "function answer() { return Bacon.once(1) }",
-    template: "function answer() { return Bacon.never() }"
+    template: answerTemplate ""
     inputs: -> []
   }
   ,{
     description: "output value 'lol' after 1000 milliseconds",
     example: "function answer() { return Bacon.later(1000, 'lol') }",
-    template: "function answer() { return Bacon.never() }"
+    template: answerTemplate ""
     inputs: -> []
   }
   ,{
     description: "Combine latest values of 2 inputs as array",
     example: "function answer(a, b) { return Bacon.combineAsArray(a,b) }",
-    template: "function answer(a, b) { return Bacon.never() }"
+    template: answerTemplate "a, b"
     inputs: -> [Bacon.once("a"), Bacon.once("b")]
   }
-]
+].map (a, i) ->
+  a.number = i+1
+  a
 
 presentAssignment = (assignment) ->
   $("#assignment .description").text(assignment.description)
+  $("#assignment .number").text(assignment.number)
   #codeP = b$.textFieldValue($("#assignment .code"), assignment.template)
   $code = $("#assignment .code")
   $code.val(assignment.template)
   codeP = $code.asEventStream("input").merge(Bacon.once()).toProperty().map(-> $code.val())
 
-  resultE = codeP.sampledBy($("#assignment .run").asEventStream("click").doAction(".preventDefault")).flatMap (code) ->
+  evalE = codeP.sampledBy($("#assignment .run").asEventStream("click").doAction(".preventDefault"))
+
+  resultE = evalE.flatMap (code) ->
+    showResult "running..."
     evaluateAssignment assignment, code
 
-  resultE.map((x) -> if x then "Success!" else "FAIL").assign($("#assignment .result"), "text")
+  resultE.map((x) -> if x then "Success!" else "FAIL").onValue(showResult)
+
+showResult =  (result) ->
+  $("#assignment .result").text(result)
 
 evaluateAssignment = (assignment, code) ->
   actual = evalCode(code)(assignment.inputs() ...)
