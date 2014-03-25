@@ -1,6 +1,19 @@
 Bacon = require("baconjs")
 $ = require("jquery")
 _ = require("lodash")
+Visualizer = require("./bacon.visualize.coffee")
+
+adds = new Bacon.Bus()
+removes = adds.flatMap (stream) ->
+  stream.filter(false).mapEnd(stream)
+
+streamsP = Bacon.update([],
+  adds, (xs, x) -> xs.concat(x),
+  removes, (xs, x) -> xs.filter((y) -> y != x))
+
+streamsP.log()
+
+Visualizer("#visualizer", streamsP, Bacon)
 
 $.fn.asEventStream = Bacon.$.asEventStream
 
@@ -17,23 +30,21 @@ assignments = [
   {
     description: "Output value 1 immediately"
     example: "return Bacon.once(1)"
-    signature: ""
     inputs: -> []
   }
   ,{
     description: "Output value 'lol' after 1000 milliseconds",
     example: "return Bacon.later(1000, 'lol')",
-    signature: ""
     inputs: -> []
   }
   ,{
     description: "Combine latest values of 2 inputs as array",
     example: "return Bacon.combineAsArray(a,b)",
-    signature: "a, b"
-    inputs: -> [Bacon.once("a"), Bacon.once("b")]
+    inputs: -> [Bacon.later(100, "a").name("a"), Bacon.later(100, "b").name("b")]
   }
 ].map (a, i) ->
   a.number = i+1
+  a.signature = a.inputs().map((obs) -> obs.toString()).join(", ")
   a
 
 presentAssignment = (assignment) ->
@@ -44,6 +55,7 @@ presentAssignment = (assignment) ->
   codeP = $code.asEventStream("input").merge(Bacon.once()).toProperty().map(-> $code.val())
 
   evalE = codeP.sampledBy($("#assignment .run").asEventStream("click").doAction(".preventDefault"))
+    .takeUntil(currentAssignment.changes())
 
   resultE = evalE.flatMap (code) ->
     showResult "running"
@@ -56,7 +68,14 @@ showResult =  (result) ->
 
 evaluateAssignment = (assignment, code) ->
   actual = evalCode(code)(assignment.inputs() ...)
+    .name("Actual")
   expected = evalCode(generateCode(assignment.signature, assignment.example))(assignment.inputs() ...)
+    .name("Expected")
+
+  adds.push(actual)
+  adds.push(expected)
+  for i in assignment.inputs()
+    adds.push(i)
 
   actualValues = timestampedValues actual
   expectedValues = timestampedValues expected
