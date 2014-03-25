@@ -15,13 +15,13 @@ generateCode = (signature, body = "return Bacon.never()") ->
 
 assignments = [
   {
-    description: "output value 1 immediately"
+    description: "Output value 1 immediately"
     example: "return Bacon.once(1)"
     signature: ""
     inputs: -> []
   }
   ,{
-    description: "output value 'lol' after 1000 milliseconds",
+    description: "Output value 'lol' after 1000 milliseconds",
     example: "return Bacon.later(1000, 'lol')",
     signature: ""
     inputs: -> []
@@ -46,13 +46,13 @@ presentAssignment = (assignment) ->
   evalE = codeP.sampledBy($("#assignment .run").asEventStream("click").doAction(".preventDefault"))
 
   resultE = evalE.flatMap (code) ->
-    showResult "running..."
+    showResult "running"
     evaluateAssignment assignment, code
 
-  resultE.map((x) -> if x then "Success!" else "FAIL").onValue(showResult)
+  resultE.map((x) -> if x then "Success" else "FAIL").onValue(showResult)
 
 showResult =  (result) ->
-  $("#assignment .result").text(result)
+  $("#assignment .result").text(result).removeClass("fail,success,running").addClass(result.toLowerCase())
 
 evaluateAssignment = (assignment, code) ->
   actual = evalCode(code)(assignment.inputs() ...)

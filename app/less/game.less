@@ -2,26 +2,40 @@ body {
   font-family: andale mono, courier new, monospace;
 }
 #assignment {
+  background: #eeeeee;
+  padding: 10px;
   width: 500px;
   .heading {
+    h2 {
+      text-decoration: underline;
+    }
     .description {
       margin-top: 10px;
-      background: #ffff99;
+      text-decoration: none;
     }
     margin-bottom: 10px;
   }
   .code {
-    width: 100%;
+    width: 90%;
+    display: block;
     height: 400px;
     font-size: 20px;
   }
   .run {
     font-size: 20px;
   }
+  .result {
+    &.fail { color: red; }
+    &.success { color: #008800; }
+  }
   .navi {
+    margin-top: 10px;
     a {
       cursor:pointer;
       color: blue;
+      &.next {
+        float: right;
+      }
     }
   }
 }
