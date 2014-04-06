@@ -3,7 +3,7 @@ d3=require("d3")
 _=require("lodash")
 
 tn = new Date().valueOf()
-scale = d3.scale.linear().range([ 0,600 ]).domain([ tn - 10000, tn ])
+scale = d3.scale.linear().range([ 0,300 ]).domain([ tn - 10000, tn ])
 Visualizer = (container) ->
   time = Bacon.fromPoll(1000 / 30, ->
     new Bacon.Next(new Date().valueOf())
@@ -41,7 +41,7 @@ Visualizer = (container) ->
         d.time
       )
       sel.enter().append("circle").attr(
-        cy: 10
+        cy: 40
         r: 6
         cx: 20
       ).style "fill", (d) ->
@@ -56,7 +56,7 @@ Visualizer = (container) ->
       )
       tsel.enter().append("text").attr("class", "p").text((d) ->
         d.v
-      ).attr("y", 30).attr "text-anchor", "middle"
+      ).attr("y", 60).attr "text-anchor", "middle"
       tsel.attr "x", (d) ->
         scale d.time
 
