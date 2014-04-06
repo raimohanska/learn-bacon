@@ -1,19 +1,15 @@
-Bacon = require("baconjs")
+Bacon = window.Bacon = require("baconjs")
 $ = require("jquery")
 _ = require("lodash")
-Visualizer = require("./bacon.visualize.coffee")
+Visualizer = require("./bacon.viz.coffee")
+visualizer = new Visualizer("#visualizer")
+window.d3 = require("d3")
 
-adds = new Bacon.Bus()
-removes = adds.flatMap (stream) ->
-  stream.filter(false).mapEnd(stream)
-
-streamsP = Bacon.update([],
-  adds, (xs, x) -> xs.concat(x),
-  removes, (xs, x) -> xs.filter((y) -> y != x))
-
-streamsP.log()
-
-Visualizer("#visualizer", streamsP, Bacon)
+streams = new Bacon.Bus()
+streams.onValue (streams) ->
+  visualizer.reset()
+  streams.forEach (stream) ->
+    visualizer.drawStream(stream)
 
 $.fn.asEventStream = Bacon.$.asEventStream
 
@@ -67,18 +63,13 @@ showResult =  (result) ->
   $("#assignment .result").text(result).removeClass("fail,success,running").addClass(result.toLowerCase())
 
 evaluateAssignment = (assignment, code) ->
-  actual = evalCode(code)(assignment.inputs() ...)
-    .name("Actual")
-  expected = evalCode(generateCode(assignment.signature, assignment.example))(assignment.inputs() ...)
-    .name("Expected")
+  actual = -> evalCode(code)(assignment.inputs() ...).name("Actual")
+  expected = -> evalCode(generateCode(assignment.signature, assignment.example))(assignment.inputs() ...).name("Expected")
 
-  adds.push(actual)
-  adds.push(expected)
-  for i in assignment.inputs()
-    adds.push(i)
+  streams.push(assignment.inputs().concat([actual(), expected()]))
 
-  actualValues = timestampedValues actual
-  expectedValues = timestampedValues expected
+  actualValues = timestampedValues actual()
+  expectedValues = timestampedValues expected()
 
   comparableValues = Bacon.combineTemplate
     actual: foldValues(actualValues)

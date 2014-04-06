@@ -17,4 +17,5 @@ Not so much to see yet.
 
     npm install
     grunt
-    open public/index.html
+    ./server&
+    open http://localhost:3000
