@@ -2,7 +2,7 @@
 
 A game for learning bacon.js and FRP in general.
 
-Currently there's 3 simple assignments and visualization.
+Currently there are a few simple assignments and visualization.
 
 ## Next up (pls contribute!)
 
