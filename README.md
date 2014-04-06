@@ -2,18 +2,17 @@
 
 A game for learning bacon.js and FRP in general.
 
-Not so much to see yet.
+Currently there's 3 simple assignments and visualization.
 
-## next up
+## Next up (pls contribute!)
 
-- Stream visualization
-- Code highlight
-- CSS
 - More assignments
+- Make it look less nasty
+- Code highlight
 - git push heroku master
 - Solve the nasty problem with using Bacon.Jquery
 
-## build & run
+## Build & run
 
     npm install
     grunt
