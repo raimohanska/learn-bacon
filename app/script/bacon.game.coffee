@@ -60,7 +60,7 @@ presentAssignment = (assignment) ->
   resultE.map((x) -> if x then "Success" else "FAIL").onValue(showResult)
 
 showResult =  (result) ->
-  $("#assignment .result").text(result).removeClass("fail,success,running").addClass(result.toLowerCase())
+  $("#output .result").text(result).removeClass("fail,success,running").addClass(result.toLowerCase())
 
 evaluateAssignment = (assignment, code) ->
   actual = -> evalCode(code)(assignment.inputs() ...).name("Actual")

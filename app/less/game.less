@@ -35,10 +35,6 @@ h1 {
   .run {
     font-size: 20px;
   }
-  .result {
-    &.fail { color: red; }
-    &.success { color: #008800; }
-  }
   .navi {
     margin-top: 10px;
     a {
@@ -50,12 +46,19 @@ h1 {
     }
   }
 }
-#visualizer {
+#output {
   display: inline-block;
   float: left;
   height: 100%;
   width: 300px;
-  svg {
-    height: 60px;
+  #visualizer {
+    svg {
+      height: 60px;
+    }
+  }
+  .result {
+    font-size: 30px;
+    &.fail { color: red; }
+    &.success { color: #008800; }
   }
 }
