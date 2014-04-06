@@ -3,13 +3,6 @@ $ = require("jquery")
 _ = require("lodash")
 Visualizer = require("./bacon.viz.coffee")
 visualizer = new Visualizer("#visualizer")
-window.d3 = require("d3")
-
-streams = new Bacon.Bus()
-streams.onValue (streams) ->
-  visualizer.reset()
-  streams.forEach (stream) ->
-    visualizer.drawStream(stream)
 
 $.fn.asEventStream = Bacon.$.asEventStream
 
@@ -43,7 +36,7 @@ assignments = [
   a.signature = a.inputs().map((obs) -> obs.toString()).join(", ")
   a
 
-presentAssignment = (assignment) ->
+presentAssignment = (visualizer, assignment) ->
   $("#assignment .description").text(assignment.description)
   $("#assignment .number").text(assignment.number)
   $code = $("#assignment .code")
@@ -55,18 +48,22 @@ presentAssignment = (assignment) ->
 
   resultE = evalE.flatMap (code) ->
     showResult "running"
-    evaluateAssignment assignment, code
+    evaluateAssignment visualizer, assignment, code
 
   resultE.map((x) -> if x then "Success" else "FAIL").onValue(showResult)
 
 showResult =  (result) ->
   $("#output .result").text(result).removeClass("fail,success,running").addClass(result.toLowerCase())
 
-evaluateAssignment = (assignment, code) ->
+evaluateAssignment = (visualizer, assignment, code) ->
   actual = -> evalCode(code)(assignment.inputs() ...).name("Actual")
   expected = -> evalCode(generateCode(assignment.signature, assignment.example))(assignment.inputs() ...).name("Expected")
 
-  streams.push(assignment.inputs().concat([actual(), expected()]))
+  visualizer.reset()
+
+  streams = (assignment.inputs().concat([actual(), expected()]))
+  streams.forEach (stream) ->
+    visualizer.drawStream(stream)
 
   actualValues = timestampedValues actual()
   expectedValues = timestampedValues expected()
@@ -101,4 +98,4 @@ currentAssignmentIndex = $("#assignment .previous").asEventStream("click").map(-
 currentAssignment = currentAssignmentIndex
   .map((i) -> assignments[i])
 
-currentAssignment.onValue presentAssignment
+currentAssignment.onValue presentAssignment, visualizer
