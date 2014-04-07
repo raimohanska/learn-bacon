@@ -74,12 +74,19 @@ collectAndVisualize = (src, values, desc) ->
 
 evalCode = (code) -> eval("(" + code + ")")
 
-currentAssignmentIndex = $("#assignment .previous").asEventStream("click").map(-1)
+indexFromHash = -> (parseInt(location.hash.substring(1)) || 1) - 1
+hash = Bacon.fromEventTarget(window, "hashchange").map(indexFromHash)
+
+diff = $("#assignment .previous").asEventStream("click").map(-1)
   .merge($("#assignment .next").asEventStream("click").map(1))
-  .scan(0, (num, diff) -> Math.min(assignments.length - 1, Math.max(0, num + diff)))
-  .skipDuplicates()
+
+currentAssignmentIndex = Bacon.update(indexFromHash(),
+  diff, (i, diff) -> i+diff,
+  hash, (i, hash) -> indexFromHash())
 
 currentAssignment = currentAssignmentIndex
   .map((i) -> assignments[i])
 
+currentAssignmentIndex.onValue (x) ->
+  location.hash = "#" + (x+1)
 currentAssignment.onValue presentAssignment, visualizer
