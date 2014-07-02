@@ -10,7 +10,7 @@ module.exports = [
     inputs: -> []
   }
   ,{
-    description: "Output values 'lol' and 'wat' after 1 and 2 seconds respectively",
+    description: "Output values 'lol' and 'wut' after 1 and 2 seconds respectively",
     example: "return Bacon.sequentially(1000, ['lol', 'wut'])",
     inputs: -> []
   }
