@@ -33,10 +33,6 @@ module.exports = (grunt) ->
       less: {
         files: ['app/less/**'],
         tasks: 'less'
-      },
-      html: {
-        files: ['app/**/*.html'],
-        tasks: 'copy'
       }
     }
   }
