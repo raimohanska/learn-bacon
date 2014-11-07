@@ -8,6 +8,7 @@ $code = $("#assignment .code")
 codeMirror = CodeMirror.fromTextArea $code.get(0), { 
   lineNumbers: true
   mode: "javascript"
+  theme: "solarized dark"
 }
 
 $.fn.asEventStream = Bacon.$.asEventStream
@@ -34,14 +35,18 @@ presentAssignment = (visualizer, assignment) ->
   codeP = Bacon.fromEventTarget(codeMirror, "change")
     .map(".getValue")
     .toProperty(code)
+  enabledP = codeP.changes().map(true).toProperty(false)
 
-  evalE = codeP.sampledBy($("#assignment .run").asEventStream("click").doAction(".preventDefault"))
+  $run = $("#assignment .run")
+  evalE = codeP.filter(enabledP).sampledBy($run.asEventStream("click").doAction(".preventDefault"))
     .takeUntil(currentAssignment.changes())
 
   resultE = evalE.flatMap (code) ->
     showResult "running"
     evaluateAssignment visualizer, assignment, code
-
+  
+  enabledP.onValue (enabled) ->
+    $run.toggleClass("disabled", !enabled)
   resultE.map((x) -> if x then "Success" else "FAIL").onValue(showResult)
 
 showResult =  (result) ->

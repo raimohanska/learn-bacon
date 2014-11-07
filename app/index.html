@@ -3,29 +3,32 @@
   <head>
     <link rel="stylesheet" type="text/css" href="game.css">
     <link rel="stylesheet" type="text/css" href="codemirror/lib/codemirror.css">
+    <link rel="stylesheet" type="text/css" href="codemirror/theme/solarized.css">
   </head>
   <body>
-    <h1>Learn Your Bacon</h1>
-    <div id="info">by @raimohanska 
-      - more info on 
-      <a href="https://github.com/raimohanska/bacon.game">Github</a>
-    </div>
-    <div id="assignment">
-      <div class="heading">
-        <h2>Assignment <span class="number"></span>:</h2>
-        <div class="description"></div>
-      </div>
-      <textarea class="code" id="code"></textarea>
-      <button class="run">RUN</button>
-      <div class="navi">
-        <a class="previous">&lt;&lt; previous</a>
-        <a class="next">next &gt;&gt;</a>
-      </div>
-    </div>
-    <div id="output">
-      <div id="visualizer">
-      </div>
-      <div class="result">
+    <div id="content">
+      <h1>Learn Bacon
+        <a href="https://github.com/raimohanska/bacon.game">src</a>
+      </h1>
+      <div id="learn">
+        <div id="assignment">
+          <div class="heading">
+            <h2>Assignment <span class="number"></span>:</h2>
+            <div class="description"></div>
+            <a class="run">run</a>
+          </div>
+          <textarea class="code" id="code"></textarea>
+          <div class="navi">
+            <a class="previous">&lt; previous</a>
+            <a class="next">next &gt;</a>
+          </div>
+        </div>
+        <div id="output">
+          <div id="visualizer">
+          </div>
+          <div class="result">
+          </div>
+        </div>
       </div>
     </div>
   </body>
