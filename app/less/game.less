@@ -1,4 +1,7 @@
 @assignment_width: 470px;
+@green: #659324;
+@red: #cb4b16;
+
 html, body {
   font-family: andale mono, courier new, monospace;
   width: 100%;
@@ -52,21 +55,47 @@ a, a:visited {
   margin-left: 3px;
   font-size: 12px;
 }
-.run-button {
-  font-size: 20px;
-  background: #659324;
-  padding: 6px 20px;
-  border-radius: 4px;
-  background-image: linear-gradient(to bottom,#81bc2e,#659324);
-  color: white;
-  text-shadow: 0 1px 0 rgba(0,0,0,0.25);
-  box-shadow: 0 1px 0 0 rgba(0,0,0,0.2),inset 0 -1px 0 0 rgba(0,0,0,0.3);
-  &.disabled {
-    background-image: linear-gradient(to bottom, #D6D6D5, #8B8B8B);
-    background: #9DA099;
-    color: #cccccc;
-    cursor: default;
+#runner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  .run {
+    font-size: 20px;
+    background: @green;
+    padding: 6px 20px;
+    border-radius: 4px;
+    background-image: linear-gradient(to bottom,#81bc2e,#659324);
+    color: white;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.25);
+    box-shadow: 0 1px 0 0 rgba(0,0,0,0.2),inset 0 -1px 0 0 rgba(0,0,0,0.3);
+    &.disabled {
+      background-image: linear-gradient(to bottom, #D6D6D5, #8B8B8B);
+      background: #9DA099;
+      color: #cccccc;
+      cursor: default;
+    }
   }
+}
+
+.text-hidden {
+  color: rgba(0,0,0,0); 
+}
+#result {
+  display: inline-block;
+  width: 60px;
+  height: 20px;
+  line-height: 20px;
+  font-size: 11px;
+    &.failed { color: @red; }
+    &.success { color: @green; }
+    &.none {
+      .text-hidden;
+    }
+    &.running { 
+      .text-hidden;
+      background-image: url('images/progress.gif');
+      background-repeat: no-repeat;
+    }
 }
 @heading_height: 100px;
 #assignment {
@@ -78,12 +107,6 @@ a, a:visited {
     position: relative;
     .description {
       text-decoration: none;
-    }
-    .run {
-      .run-button;
-      position: absolute;
-      top: 0;
-      right: 0;
     }
   }
   .code {
@@ -109,10 +132,5 @@ a, a:visited {
     svg {
       height: 60px;
     }
-  }
-  .result {
-    font-size: 30px;
-    &.fail { color: red; }
-    &.success { color: #008800; }
   }
 }

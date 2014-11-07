@@ -28,6 +28,7 @@ assignments = require("./assignments.coffee").map (a, i) ->
   a
 
 presentAssignment = (visualizer, assignment) ->
+  hideResult()
   $("#assignment .description").text(assignment.description)
   $("#assignment .number").text(assignment.number)
   code = generateCode(assignment.signature)
@@ -42,15 +43,23 @@ presentAssignment = (visualizer, assignment) ->
     .takeUntil(currentAssignment.changes())
 
   resultE = evalE.flatMap (code) ->
-    showResult "running"
+    showResult("Running")
     evaluateAssignment visualizer, assignment, code
   
   enabledP.onValue (enabled) ->
     $run.toggleClass("disabled", !enabled)
-  resultE.map((x) -> if x then "Success" else "FAIL").onValue(showResult)
 
+  resultE
+    .map((x) -> if x then "Success" else "Failed")
+    .onValue(showResult)
+
+hideResult = ->
+  showResult("None")
 showResult =  (result) ->
-  $("#output .result").text(result).removeClass("fail,success,running").addClass(result.toLowerCase())
+  $("#result").text(result)
+    .removeClass("failed success running none")
+    .addClass(result.toLowerCase())
+    .show()
 
 evaluateAssignment = (visualizer, assignment, code) ->
   formatValues = (s) -> s.map((x) -> Bacon._.toString(x).replace("function", "fn"))
