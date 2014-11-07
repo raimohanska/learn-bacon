@@ -16,11 +16,6 @@ Visualizer = (container) ->
   drawStream = (stream) ->
     svg = d3.select(container).append("svg")
     svg.append("text").text(stream.toString()).attr( x: 5, y: 20).attr "class", "title"
-    svg.append("svg:line").attr
-      x1: 0
-      x2: 600
-      y1: 40.5
-      y2: 40.5
 
     circles = []
     stream = stream.map((p) ->

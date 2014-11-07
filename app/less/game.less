@@ -1,4 +1,4 @@
-@assignment_width: 470px;
+@code_width: 470px;
 @output_width: 260px;
 @content_width: 730px;
 @green: #659324;
@@ -22,7 +22,7 @@ h1,h2 {
 }
 h1 {
   margin-bottom: 0;
-  width: @assignment_width;
+  width: @content_width;
   background-image: url('images/badassbacon.png');
   background-repeat: no-repeat;
   height: 100px;
@@ -60,6 +60,28 @@ a, a:visited {
   margin-left: 3px;
   font-size: 12px;
 }
+#assignment {
+  .heading {
+    height: @heading_height;
+    position: relative;
+    .description {
+      text-decoration: none;
+    }
+  }
+  .code {
+    display: none;
+  }
+}
+.navi {
+  padding-top: 10px;
+  clear: both;
+  a {
+    cursor:pointer;
+    &.next {
+      float: right;
+    }
+  }
+}
 #runner {
   position: absolute;
   top: 0;
@@ -81,7 +103,11 @@ a, a:visited {
     }
   }
 }
-
+#code-container {
+  width: @code_width;
+  display: inline-block;
+  float: left;
+}
 .text-hidden {
   color: rgba(0,0,0,0); 
 }
@@ -103,33 +129,9 @@ a, a:visited {
     }
 }
 @heading_height: 100px;
-#assignment {
-  width: @assignment_width;
-  display: inline-block;
-  float: left;
-  .heading {
-    height: @heading_height;
-    position: relative;
-    .description {
-      text-decoration: none;
-    }
-  }
-  .code {
-    display: none;
-  }
-  .navi {
-    margin-top: 10px;
-    a {
-      cursor:pointer;
-      &.next {
-        float: right;
-      }
-    }
-  }
-}
 #output {
   background: rgb(213, 213, 213);
-  margin-top: @heading_height;
+  overflow: hidden;
   display: inline-block;
   float: left;
   height: 300px;

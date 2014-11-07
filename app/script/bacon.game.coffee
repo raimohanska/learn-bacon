@@ -4,7 +4,7 @@ _ = require("lodash")
 Visualizer = require("./bacon.viz.coffee")
 visualizer = new Visualizer("#visualizer")
 
-$code = $("#assignment .code")
+$code = $("#code")
 $header = $("#assignment .heading")
 codeMirror = CodeMirror.fromTextArea $code.get(0), { 
   lineNumbers: true
@@ -105,8 +105,8 @@ evalCode = (code) -> eval("(" + code + ")")
 indexFromHash = -> (parseInt(location.hash.substring(1)) || 1) - 1
 hash = Bacon.fromEventTarget(window, "hashchange").map(indexFromHash)
 
-diff = $("#assignment .previous").asEventStream("click").map(-1)
-  .merge($("#assignment .next").asEventStream("click").map(1))
+diff = $(".previous").asEventStream("click").map(-1)
+  .merge($(".next").asEventStream("click").map(1))
 
 currentAssignmentIndex = Bacon.update(indexFromHash(),
   diff, (i, diff) -> i+diff,
