@@ -4,6 +4,7 @@
 @green: #659324;
 @red: #cb4b16;
 @blue: #268bd2;
+@gray: #9DA099;
 
 html, body {
   width: 100%;
@@ -50,6 +51,10 @@ a, a:visited {
   color: @blue;
   cursor: pointer;
   text-decoration: none;
+  &.disabled {
+    color: @gray;
+    pointer-events: none;
+  }
 }
 
 #content {
@@ -105,7 +110,7 @@ a, a:visited {
     box-shadow: 0 1px 0 0 rgba(0,0,0,0.2),inset 0 -1px 0 0 rgba(0,0,0,0.3);
     &.disabled {
       background-image: linear-gradient(to bottom, #D6D6D5, #8B8B8B);
-      background: #9DA099;
+      background: @gray;
       color: #cccccc;
       cursor: default;
     }

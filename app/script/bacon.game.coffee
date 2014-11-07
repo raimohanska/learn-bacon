@@ -117,4 +117,11 @@ currentAssignment = currentAssignmentIndex
 
 currentAssignmentIndex.onValue (x) ->
   location.hash = "#" + (x+1)
+
+toggleLink = ($link, enabledP) ->
+  enabledP.assign (enabled) -> $link.toggleClass("disabled", !enabled)
+
+toggleLink($(".previous"), currentAssignmentIndex.map((index) -> index > 0))
+toggleLink($(".next"), currentAssignmentIndex.map((index) -> index < assignments.length - 1))
+
 currentAssignment.onValue presentAssignment, visualizer
