@@ -3,8 +3,10 @@ d3=require("d3")
 _=require("lodash")
 
 tn = new Date().valueOf()
-scale = d3.scale.linear().range([ 0,300 ]).domain([ tn - 10000, tn ])
 Visualizer = (container) ->
+  width = $(container).width()
+  scale = d3.scale.linear()
+    .range([ 0,width ]).domain([ tn - 10000, tn ])
   time = Bacon.fromPoll(1000 / 30, ->
     new Bacon.Next(new Date().valueOf())
   )
