@@ -1,4 +1,6 @@
 @assignment_width: 470px;
+@output_width: 260px;
+@content_width: 730px;
 @green: #659324;
 @red: #cb4b16;
 @blue: #268bd2;
@@ -44,7 +46,7 @@ a, a:visited {
 }
 
 #content {
-  width: 900px;
+  width: @content_width;
   margin: 30px auto;
 }
 
@@ -126,11 +128,12 @@ a, a:visited {
   }
 }
 #output {
+  background: rgb(213, 213, 213);
   margin-top: @heading_height;
   display: inline-block;
   float: left;
-  height: 370px;
-  width: 400px;
+  height: 300px;
+  width: @output_width;
   #visualizer {
     svg {
       height: 60px;
