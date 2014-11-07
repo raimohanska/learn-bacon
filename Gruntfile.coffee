@@ -5,7 +5,7 @@ module.exports = (grunt) ->
     browserify: {
       bundle: {
         files: {
-          'public/bundle.js': ['app/script/*.coffee']
+          'output/bundle.js': ['app/script/*.coffee']
         },
         options: {
           transform: ['coffeeify']
@@ -15,14 +15,13 @@ module.exports = (grunt) ->
     less: {
       all: {
         files: {
-          'public/game.css': ['app/less/game.less']
+          'output/game.css': ['app/less/game.less']
         }
       }
     }
     copy: {
       html: {
         files: [
-          {expand: true, cwd: 'app/', src: '**/*.html', dest: 'public/'}
         ]
       }
     }
