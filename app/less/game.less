@@ -55,6 +55,7 @@ a, a:visited {
     color: @gray;
     pointer-events: none;
   }
+  .no-select;
 }
 
 #content {
@@ -86,6 +87,7 @@ a, a:visited {
   }
 }
 .navi {
+  .no-select;
   padding-top: 10px;
   clear: both;
   a {
@@ -155,4 +157,12 @@ a, a:visited {
       height: 60px;
     }
   }
+}
+.no-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
