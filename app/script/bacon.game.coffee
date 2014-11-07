@@ -5,6 +5,7 @@ Visualizer = require("./bacon.viz.coffee")
 visualizer = new Visualizer("#visualizer")
 
 $code = $("#assignment .code")
+$header = $("#assignment .heading")
 codeMirror = CodeMirror.fromTextArea $code.get(0), { 
   lineNumbers: true
   mode: "javascript"
@@ -29,6 +30,7 @@ assignments = require("./assignments.coffee").map (a, i) ->
 
 presentAssignment = (visualizer, assignment) ->
   $("body").css("opacity", 1)
+  $header.css("opacity", 0)
   hideResult()
   $("#assignment .description").text(assignment.description)
   $("#assignment .number").text(assignment.number)
@@ -53,6 +55,8 @@ presentAssignment = (visualizer, assignment) ->
   resultE
     .map((x) -> if x then "Success" else "Failed")
     .onValue(showResult)
+
+  $header.animate({"opacity": 1})
 
 hideResult = ->
   showResult("None")
