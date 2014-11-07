@@ -6,30 +6,32 @@
 @blue: #268bd2;
 
 html, body {
-  font-family: andale mono, courier new, monospace;
   width: 100%;
   height: 100%;
   color: #383838;
 }
 body {
+  font-family: Oswald, courier new, monospace;
   background-color: #f7fbfc;
   opacity: 0;
   transition: opacity 1s;
 }
 h1,h2 {
-  text-transform: uppercase;
   margin-top: 0;
+  text-transform: uppercase;
 }
 h1 {
+  font-size: 40px;
   margin-bottom: 0;
   width: @content_width;
   background-image: url('images/badassbacon.png');
   background-repeat: no-repeat;
   height: 100px;
-  line-height: 100px;
-  padding: 0 120px;
+  line-height: 82px;
+  padding: 0 150px;
   background-size: 114px 100px;
   a {
+    margin-left: 5px;
     font-size: 10px;
     vertical-align: top;
   }
@@ -40,9 +42,14 @@ h1, #content {
   margin: 0 auto;
 }
 
+h2 {
+  margin-bottom: 5px;
+}
+
 a, a:visited {
   color: @blue;
   cursor: pointer;
+  text-decoration: none;
 }
 
 #content {
@@ -51,7 +58,7 @@ a, a:visited {
 }
 
 #learn {
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 #info {
@@ -84,8 +91,8 @@ a, a:visited {
 }
 #runner {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 14px;
+  left: @code_width;
   .run {
     font-size: 20px;
     background: @green;
@@ -103,32 +110,32 @@ a, a:visited {
     }
   }
 }
-#code-container {
-  width: @code_width;
-  display: inline-block;
-  float: left;
-}
 .text-hidden {
   color: rgba(0,0,0,0); 
 }
 #result {
   display: inline-block;
+  margin-left: 10px;
   width: 60px;
   height: 20px;
   line-height: 20px;
-  font-size: 11px;
-    &.failed { color: @red; }
-    &.success { color: @green; }
-    &.none {
-      .text-hidden;
-    }
-    &.running { 
-      .text-hidden;
-      background-image: url('images/progress.gif');
-      background-repeat: no-repeat;
-    }
+  &.failed { color: @red; }
+  &.success { color: @green; }
+  &.none {
+    .text-hidden;
+  }
+  &.running { 
+    .text-hidden;
+    background-image: url('images/progress.gif');
+    background-repeat: no-repeat;
+  }
 }
 @heading_height: 100px;
+#code-container {
+  width: @code_width;
+  display: inline-block;
+  float: left;
+}
 #output {
   background: rgb(213, 213, 213);
   overflow: hidden;
@@ -136,6 +143,7 @@ a, a:visited {
   float: left;
   height: 300px;
   width: @output_width;
+  font-size: 12px;
   #visualizer {
     svg {
       height: 60px;
