@@ -1,8 +1,14 @@
 Bacon = window.Bacon = require("baconjs")
-$ = require("jquery")
+$ = window.$ = require("jquery")
 _ = require("lodash")
 Visualizer = require("./bacon.viz.coffee")
 visualizer = new Visualizer("#visualizer")
+
+$code = $("#assignment .code")
+codeMirror = CodeMirror.fromTextArea $code.get(0), { 
+  lineNumbers: true
+  mode: "javascript"
+}
 
 $.fn.asEventStream = Bacon.$.asEventStream
 
@@ -23,9 +29,11 @@ assignments = require("./assignments.coffee").map (a, i) ->
 presentAssignment = (visualizer, assignment) ->
   $("#assignment .description").text(assignment.description)
   $("#assignment .number").text(assignment.number)
-  $code = $("#assignment .code")
-  $code.val(generateCode(assignment.signature))
-  codeP = $code.asEventStream("input").merge(Bacon.once()).toProperty().map(-> $code.val())
+  code = generateCode(assignment.signature)
+  codeMirror.setValue(code)
+  codeP = Bacon.fromEventTarget(codeMirror, "change")
+    .map(".getValue")
+    .toProperty(code)
 
   evalE = codeP.sampledBy($("#assignment .run").asEventStream("click").doAction(".preventDefault"))
     .takeUntil(currentAssignment.changes())

@@ -4,4 +4,5 @@ var app = express();
 
 app.use('/', express.static(__dirname + '/output'))
 app.use('/', express.static(__dirname + '/app'))
+app.use('/codemirror', express.static(__dirname + '/node_modules/codemirror'))
 app.listen(port)

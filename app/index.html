@@ -2,6 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="game.css">
+    <link rel="stylesheet" type="text/css" href="codemirror/lib/codemirror.css">
   </head>
   <body>
     <h1>Learn Your Bacon</h1>
@@ -14,7 +15,7 @@
         <h2>Assignment <span class="number"></span>:</h2>
         <div class="description"></div>
       </div>
-      <textarea class="code"></textarea>
+      <textarea class="code" id="code"></textarea>
       <button class="run">RUN</button>
       <div class="navi">
         <a class="previous">&lt;&lt; previous</a>
@@ -28,5 +29,7 @@
       </div>
     </div>
   </body>
+  <script src="codemirror/lib/codemirror.js"></script>
+  <script src="codemirror/mode/javascript/javascript.js"></script>
   <script src="bundle.js"></script>
 </html>
