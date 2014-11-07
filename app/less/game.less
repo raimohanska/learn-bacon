@@ -1,6 +1,7 @@
 @assignment_width: 470px;
 @green: #659324;
 @red: #cb4b16;
+@blue: #268bd2;
 
 html, body {
   font-family: andale mono, courier new, monospace;
@@ -10,6 +11,8 @@ html, body {
 }
 body {
   background-color: #f7fbfc;
+  opacity: 0;
+  transition: opacity 1s;
 }
 h1,h2 {
   text-transform: uppercase;
@@ -36,7 +39,7 @@ h1, #content {
 }
 
 a, a:visited {
-  color: #337610;
+  color: @blue;
   cursor: pointer;
 }
 

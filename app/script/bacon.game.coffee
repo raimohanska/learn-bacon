@@ -28,6 +28,7 @@ assignments = require("./assignments.coffee").map (a, i) ->
   a
 
 presentAssignment = (visualizer, assignment) ->
+  $("body").css("opacity", 1)
   hideResult()
   $("#assignment .description").text(assignment.description)
   $("#assignment .number").text(assignment.number)
