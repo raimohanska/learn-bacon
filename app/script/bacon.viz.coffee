@@ -2,6 +2,8 @@ Bacon = require("baconjs")
 d3=require("d3")
 _=require("lodash")
 
+formatValue = (x) -> Bacon._.toString(x).replace("function", "fn")
+
 tn = new Date().valueOf()
 Visualizer = (container) ->
   width = $(container).width()
@@ -25,11 +27,11 @@ Visualizer = (container) ->
         p="undefined"
       if p.color
         console.log "c", p.color
-        v: p.v
+        v: formatValue(p.v)
         color: p.color
         time: new Date().valueOf()
       else
-        v: p
+        v: formatValue(p)
         time: new Date().valueOf()
         color: "black"
     )

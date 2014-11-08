@@ -67,13 +67,12 @@ showResult =  (result) ->
     .show()
 
 evaluateAssignment = (visualizer, assignment, code) ->
-  formatValues = (s) -> s.map((x) -> Bacon._.toString(x).replace("function", "fn"))
   actual = -> evalCode(code)(assignment.inputs() ...).name("Actual")
   expected = -> evalCode(generateCode(assignment.signature, assignment.example))(assignment.inputs() ...).name("Expected")
 
   visualizer.reset()
 
-  streams = (assignment.inputs().map(formatValues).concat([actual(), expected()]))
+  streams = (assignment.inputs().concat([actual(), expected()]))
   streams.forEach (stream) ->
     visualizer.drawStream(stream)
 
