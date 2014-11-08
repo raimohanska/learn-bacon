@@ -34,6 +34,7 @@ presentAssignment = (visualizer, assignment) ->
   hideResult()
   $("#assignment .description").text(assignment.description)
   $("#assignment .number").text(assignment.number)
+  $("#result .tip-text").text("PRO TIP: " + assignment.tip)
   code = generateCode(assignment.signature)
   codeMirror.setValue(code)
   codeP = Bacon.fromEventTarget(codeMirror, "change")
@@ -61,10 +62,11 @@ presentAssignment = (visualizer, assignment) ->
 hideResult = ->
   showResult("None")
 showResult =  (result) ->
-  $("#result").text(result)
+  $("#result")
     .removeClass("failed success running none")
     .addClass(result.toLowerCase())
     .show()
+    .find(".text").text(result)
 
 evaluateAssignment = (visualizer, assignment, code) ->
   try
