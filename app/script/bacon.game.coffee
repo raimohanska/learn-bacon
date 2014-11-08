@@ -67,26 +67,30 @@ showResult =  (result) ->
     .show()
 
 evaluateAssignment = (visualizer, assignment, code) ->
-  actual = -> evalCode(code)(assignment.inputs() ...).name("Actual")
-  expected = -> evalCode(generateCode(assignment.signature, assignment.example))(assignment.inputs() ...).name("Expected")
+  try
+    actual = -> evalCode(code)(assignment.inputs() ...).name("Actual")
+    expected = -> evalCode(generateCode(assignment.signature, assignment.example))(assignment.inputs() ...).name("Expected")
 
-  visualizer.reset()
+    visualizer.reset()
 
-  streams = (assignment.inputs().concat([actual(), expected()]))
-  streams.forEach (stream) ->
-    visualizer.drawStream(stream)
+    streams = (assignment.inputs().concat([actual(), expected()]))
+    streams.forEach (stream) ->
+      visualizer.drawStream(stream)
 
-  actualValues = timestampedValues actual()
-  expectedValues = timestampedValues expected()
+    actualValues = timestampedValues actual()
+    expectedValues = timestampedValues expected()
 
-  comparableValues = Bacon.combineTemplate
-    actual: foldValues(actualValues)
-    expected: foldValues(expectedValues)
+    comparableValues = Bacon.combineTemplate
+      actual: foldValues(actualValues)
+      expected: foldValues(expectedValues)
 
-  success = comparableValues.map ({actual, expected}) ->
-    _.isEqual(actual, expected)
+    success = comparableValues.map ({actual, expected}) ->
+      _.isEqual(actual, expected)
 
-  success
+    success
+  catch e
+    alert(e)
+    Bacon.once(false)
 
 timestampedValues = (src) ->
   src.withTimestamp({relative:true, precision: 100})
