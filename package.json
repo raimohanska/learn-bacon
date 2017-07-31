@@ -9,12 +9,12 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "baconjs": "baconjs/bacon.js#231ede0",
-    "browserify": "~3",
-    "coffeeify": "~0.6",
+    "baconjs": "~0.7.94",
+    "browserify": "~14",
+    "coffeeify": "~2",
     "jquery": "~2",
     "lodash": "2.4.1",
-    "d3": "3.4.4",
+    "d3": "^3.4.4",
     "codemirror": "~4.7",
     "grunt": "~0.4.4",
     "grunt-cli": "~0.1.13",
@@ -24,7 +24,7 @@
     "grunt-contrib-watch": "0.6.1",
     "grunt-contrib-copy": "0.5.0",
     "grunt-contrib-less": "~0.11",
-    "grunt-browserify": "~2.0",
+    "grunt-browserify": "~5.0",
     "load-grunt-tasks": "0.4.0",
     "express": "~3"
   }
