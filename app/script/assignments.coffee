@@ -104,6 +104,15 @@ module.exports = [
     tip: "flatMap"
   }
   {
+    description: "Given a stream of URLs, fetch the content of each, using the given fetch function that returns an EventStream. If the previous fetch is still under progress when fetching the next one, discard the result of the pending fetch.",
+    example: "return urls.flatMapLatest(fetch)"
+    inputs: -> [
+      Bacon.sequentially(2000, ["/cats", "/dogs", "/giraffes"]).name("urls")
+      `function fetch(url) { return Bacon.later(url == "/dogs" ? 4000 : 500, url.substring(1)) }`
+    ]
+    tip: "flatMapLatest"
+  }
+  {
     description: "Given a stream of URLs, fetch the content of each, using the given fetch function that returns a Promise",
     example: "return urls.flatMap(function(value) { return Bacon.fromPromise(fetch(value)) })"
     inputs: -> [
