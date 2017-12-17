@@ -9,11 +9,6 @@ Try it at http://learn-bacon.herokuapp.com/
 ## Next up (pls contribute!)
 
 - More assignments
-- Make it look less nasty
-- Make assignments bookmarkable (#assignment-1)
-- Code highlight
-- git push heroku master
-- Solve the nasty problem with using Bacon.Jquery
 
 ## Build & run
 

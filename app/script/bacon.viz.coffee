@@ -8,7 +8,7 @@ tn = new Date().valueOf()
 Visualizer = (container) ->
   width = $(container).width()
   scale = d3.scale.linear()
-    .range([ 0,width ]).domain([ tn - 10000, tn ])
+    .range([ 0, width - 20 ]).domain([ tn - 10000, tn ])
   time = Bacon.fromPoll(1000 / 30, ->
     new Bacon.Next(new Date().valueOf())
   )

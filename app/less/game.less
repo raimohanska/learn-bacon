@@ -1,6 +1,7 @@
 @code_width: 470px;
 @output_width: 260px;
 @content_width: 730px;
+@code_height: 350px;
 @green: #659324;
 @red: #cb4b16;
 @blue: #268bd2;
@@ -169,13 +170,16 @@ a, a:visited {
   width: @code_width;
   display: inline-block;
   float: left;
+  .CodeMirror {
+    height: @code_height;
+  }
 }
 #output {
   background: rgb(213, 213, 213);
   overflow: hidden;
   display: inline-block;
   float: left;
-  height: 300px;
+  height: @code_height;
   width: @output_width;
   font-size: 12px;
   #visualizer {

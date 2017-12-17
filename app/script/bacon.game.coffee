@@ -23,9 +23,17 @@ answerTemplate = "function answer($signature) {\n  $body\n}"
 generateCode = (signature, body = "return Bacon.never()") ->
   answerTemplate.replace("$signature", signature).replace("$body", body)
 
+argumentToString = (arg) ->
+  if arg instanceof Bacon.Observable
+    arg.toString()
+  else if typeof arg == "function"
+    arg.name
+  else
+    arg
+
 assignments = require("./assignments.coffee").map (a, i) ->
   a.number = i+1
-  a.signature = a.inputs().map((obs) -> obs.toString()).join(", ")
+  a.signature = a.inputs().map(argumentToString).join(", ")
   a
 
 presentAssignment = (visualizer, assignment) ->
@@ -75,7 +83,9 @@ evaluateAssignment = (visualizer, assignment, code) ->
 
     visualizer.reset()
 
-    streams = (assignment.inputs().concat([actual(), expected()]))
+    streams = assignment.inputs()
+      .filter((s) => s instanceof Bacon.Observable)
+      .concat([actual(), expected()])
     streams.forEach (stream) ->
       visualizer.drawStream(stream)
 
