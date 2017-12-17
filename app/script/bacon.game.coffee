@@ -67,6 +67,11 @@ presentAssignment = (visualizer, assignment) ->
 
   $header.animate({"opacity": 1})
 
+  $("#result .cheat").click(->
+    exampleCode = generateCode(assignment.signature, assignment.example)
+    codeMirror.setValue(exampleCode)
+  )
+
 hideResult = ->
   showResult("None")
 showResult =  (result) ->

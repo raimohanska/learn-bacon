@@ -127,31 +127,43 @@ a, a:visited {
   margin-left: 10px;
   height: 20px;
   line-height: 20px;
-  .tip { display: none }
+  .tip, .cheat { display: none }
   &.failed { 
     color: @red; 
-    .tip {
+    .tip, .cheat {
       display: inline-block;
       cursor: pointer;
       position: relative;
-      width: 24px;
-      height: 24px;
-      background: url('images/help.png') no-repeat scroll 0px 0px transparent;
-      background-size: 24px 24px;
       margin-left: 3px;
       margin-bottom: -6px;
+    }
+    .cheat {
+      background: url('images/cheat.png') no-repeat scroll 0px 0px transparent;
+      background-size: 20px 20px;
+      width: 20px;
+      height: 20px;
+      margin-bottom: -4px;
+    }
+    .tip {
+      background: url('images/help.png') no-repeat scroll 0px 0px transparent;
+      background-size: 24px 24px;
+      width: 24px;
+      height: 24px;
       .tip-text { 
-        opacity: 0; 
+        display: none;
+        opacity: 0;
+        transition: opacity 0.5s;
+      }
+      &:hover .tip-text {
+        display: block;
+        z-index: 10;
+        opacity: 1; 
         position: absolute;
-        margin-top: -4px;
+        margin-top: -54px;
         background: green;
         border-radius: 3px;
         color: white;
         padding: 5px;
-        transition: opacity 0.5s;
-      }
-      &:hover .tip-text {
-        opacity: 1;
       }
     }
   }
