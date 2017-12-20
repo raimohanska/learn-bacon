@@ -30,7 +30,7 @@ module.exports = [
     tip: "filter"
   }
   {
-    description: "Given a stream of functions, apply each to the value 1"
+    description: "Given a stream of functions, call each one with the value 1."
     example: "return a.map(function(f) { return f(1) })"
     inputs: -> [Bacon.sequentially(1000, [((x) -> x),((x) ->  x+1)]).name("a")]
     tip: "map"
