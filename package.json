@@ -12,7 +12,7 @@
     "baconjs": "~0.7.94",
     "browserify": "~14",
     "coffeeify": "~2",
-    "jquery": "~2",
+    "jquery": "~3",
     "lodash": "2.4.1",
     "d3": "^3.4.4",
     "codemirror": "~4.7",
