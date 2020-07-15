@@ -13,7 +13,7 @@
     "browserify": "~14",
     "coffeeify": "~2",
     "jquery": "~2",
-    "lodash": "2.4.1",
+    "lodash": "4.17.19",
     "d3": "^3.4.4",
     "codemirror": "~4.7",
     "grunt": "~0.4.4",
