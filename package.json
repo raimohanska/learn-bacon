@@ -15,7 +15,7 @@
     "jquery": "~2",
     "lodash": "2.4.1",
     "d3": "^3.4.4",
-    "codemirror": "~4.7",
+    "codemirror": "~5.58",
     "grunt": "~0.4.4",
     "grunt-cli": "~0.1.13",
     "grunt-contrib-jshint": "~0.6.3",
